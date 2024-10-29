@@ -14,6 +14,8 @@
 		CE2E1E5E2CD0C73700BBDAE1 /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E5D2CD0C73700BBDAE1 /* Animation.swift */; };
 		CE2E1E602CD0C75900BBDAE1 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E5F2CD0C75900BBDAE1 /* CanvasView.swift */; };
 		CE2E1E622CD0C78700BBDAE1 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E612CD0C78700BBDAE1 /* CanvasViewModel.swift */; };
+		CE2E1E652CD0D25900BBDAE1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E642CD0D25800BBDAE1 /* Theme.swift */; };
+		CE2E1E672CD0D27E00BBDAE1 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		CE2E1E5D2CD0C73700BBDAE1 /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		CE2E1E5F2CD0C75900BBDAE1 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		CE2E1E612CD0C78700BBDAE1 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
+		CE2E1E642CD0D25800BBDAE1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,7 @@
 		CE2E1E4A2CD0BA7E00BBDAE1 /* stopmotion */ = {
 			isa = PBXGroup;
 			children = (
+				CE2E1E632CD0D23500BBDAE1 /* theme */,
 				CE2E1E5C2CD0C6C400BBDAE1 /* resources */,
 				CE2E1E5B2CD0C6B300BBDAE1 /* viewmodels */,
 				CE2E1E5A2CD0C6AA00BBDAE1 /* views */,
@@ -104,8 +109,17 @@
 			isa = PBXGroup;
 			children = (
 				CE2E1E4F2CD0BA8100BBDAE1 /* Assets.xcassets */,
+				CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		CE2E1E632CD0D23500BBDAE1 /* theme */ = {
+			isa = PBXGroup;
+			children = (
+				CE2E1E642CD0D25800BBDAE1 /* Theme.swift */,
+			);
+			path = theme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,6 +195,8 @@
 				CE2E1E622CD0C78700BBDAE1 /* CanvasViewModel.swift in Sources */,
 				CE2E1E4E2CD0BA7E00BBDAE1 /* ContentView.swift in Sources */,
 				CE2E1E602CD0C75900BBDAE1 /* CanvasView.swift in Sources */,
+				CE2E1E672CD0D27E00BBDAE1 /* Colors.swift in Sources */,
+				CE2E1E652CD0D25900BBDAE1 /* Theme.swift in Sources */,
 				CE2E1E5E2CD0C73700BBDAE1 /* Animation.swift in Sources */,
 				CE2E1E4C2CD0BA7E00BBDAE1 /* stopmotionApp.swift in Sources */,
 			);
