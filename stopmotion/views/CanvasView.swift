@@ -26,6 +26,11 @@ struct Line {
     var lineWidth: CGFloat
 }
 
+struct Frame: Identifiable {
+    let id = UUID()
+    var lines: [Line] = []
+}
+
 struct CanvasView: View {
     @State private var selectionModeIndex: Int? = nil
     @State private var lines: [Line] = []
@@ -33,14 +38,24 @@ struct CanvasView: View {
     @State private var redoHistory: [Line] = []
     @State private var selectedColor: Color = .black
     @State private var isShowingColorPicker = false
-
+    
+    @State private var frames: [Frame] = [Frame()]
+    @State private var currentFrameIndex = 0
+    
+    var currentFrame: Binding<Frame> {
+        Binding(
+            get: {frames[currentFrameIndex]},
+            set: {frames[currentFrameIndex] = $0})
+    }
+    
     var body: some View {
         VStack {
             Spacer()
             HStack(spacing:20){
+                Spacer()
                 Button{
-                    if !lines.isEmpty {
-                        let lastAction = lines.removeLast()
+                    if !currentFrame.wrappedValue.lines.isEmpty {
+                        let lastAction = currentFrame.wrappedValue.lines.removeLast()
                         redoHistory.append(lastAction)
                     }
                 } label: {
@@ -56,7 +71,7 @@ struct CanvasView: View {
                 Button{
                     if !redoHistory.isEmpty {
                         let lastRedoAction = redoHistory.removeLast()
-                        lines.append(lastRedoAction)
+                        currentFrame.wrappedValue.lines.append(lastRedoAction)
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.right")
@@ -70,54 +85,100 @@ struct CanvasView: View {
                 }
                 ColorPicker("", selection: $selectedColor)
                     .labelsHidden()
-             }
-         Spacer()
+                //новый кадр
+                Button{
+                    frames.append(Frame())
+                    currentFrameIndex = frames.count - 1
+                } label: {
+                    Image(systemName: "plus")
+                }
+                //предыдущий кадр
+                Button{
+                    if currentFrameIndex > 0 {
+                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
+                        currentFrameIndex -= 1
+                    }
+                }
+            label: {
+                Image(systemName: "arrow.left")
+                
+            }
+                //следующий кадр
+                Button {
+                    if currentFrameIndex < frames.count - 1 {
+                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
+                        currentFrameIndex += 1
+                    }
+                } label: {
+                    Image(systemName: "arrow.right")
+                    
+                }
+                Spacer()
+            }
+            Spacer()
             ZStack {
                 paperImage
                     .resizable()
                     .frame(width: 350, height: 600)
-                Canvas { context, size in
-                    for line in lines {
-                        var path = Path()
-                        path.addLines(line.points)
-
-                        if line.mode == .draw {
-                            context.blendMode = .normal
-                            context.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: line.lineWidth))
-                        } else {
-                            context.blendMode = .destinationOut //для стирания
-                            context.stroke(path, with: .color(.white), style: StrokeStyle(lineWidth: line.lineWidth * 2))
+                
+                ForEach(0..<frames.count, id: \.self) { index in
+                    Canvas { context, size in
+                        if index == currentFrameIndex {
+                            for line in frames[index].lines {
+                                var path = Path()
+                                path.addLines(line.points)
+                                
+                                if line.mode == .draw {
+                                    context.blendMode = .normal
+                                    context.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: line.lineWidth))
+                                } else {
+                                    context.blendMode = .destinationOut
+                                    context.stroke(path, with: .color(.white), style: StrokeStyle(lineWidth: line.lineWidth * 2))
+                                }
+                            }
+                        }
+                        if index == currentFrameIndex - 1 && currentFrameIndex > 0 {
+                            for line in frames[index].lines {
+                                var path = Path()
+                                path.addLines(line.points)
+                                
+                                if line.mode == .draw {
+                                    context.blendMode = .normal
+                                    context.stroke(path, with: .color(line.color), style: StrokeStyle(lineWidth: line.lineWidth))
+                                } else {
+                                    context.blendMode = .destinationOut
+                                    context.stroke(path, with: .color(.white), style: StrokeStyle(lineWidth: line.lineWidth * 2))
+                                }
+                            }
                         }
                     }
+                    .frame(width: 350, height: 600)
+                    .opacity(index == currentFrameIndex ? 1 : (index == currentFrameIndex - 1 ? 0.3 : 0))
                 }
-                
                 .gesture(
                     DragGesture()
                         .onChanged { dragValue in
-                            if lines.isEmpty {
+                            if currentFrame.wrappedValue.lines.isEmpty {
                                 if let selectionModeIndex = selectionModeIndex, let mode = Mode(rawValue: selectionModeIndex) {
-                                    lines = [Line(color: selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: 5)]
+                                    currentFrame.wrappedValue.lines = [Line(color: selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: 5)]
                                 }
-                               
                             } else {
-                                let lastLine = lines[lines.count - 1]
+                                let lastLine = currentFrame.wrappedValue.lines[currentFrame.wrappedValue.lines.count - 1]
                                 if let selectionModeIndex = selectionModeIndex {
-                                   
                                     if dragValue.startLocation != lastLine.points.first! || lastLine.mode != Mode(rawValue: selectionModeIndex)! {
                                         let newLine = Line(color: selectedColor, points: [dragValue.startLocation], mode: Mode(rawValue: selectionModeIndex)!, lineWidth: 5)
-                                        lines.append(newLine)
+                                        currentFrame.wrappedValue.lines.append(newLine)
                                     } else {
-                                        lines[lines.count - 1].points.append(dragValue.location)
+                                        currentFrame.wrappedValue.lines[currentFrame.wrappedValue.lines.count - 1].points.append(dragValue.location)
+                                        currentFrame.wrappedValue = currentFrame.wrappedValue
                                     }
                                 }
-                              
                             }
                         }
-                    
                 )
                 .frame(width: 350, height: 600)
-                
             }
+            .frame(width: 350, height: 600)
             .cornerRadius(20)
             Spacer()
             HStack(spacing:20){
