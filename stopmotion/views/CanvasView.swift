@@ -29,6 +29,7 @@ struct Line {
 struct Frame: Identifiable {
     let id = UUID()
     var lines: [Line] = []
+   // var miniature: Image
 }
 
 struct CanvasView: View {
@@ -52,8 +53,8 @@ struct CanvasView: View {
     }
     
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(spacing: 10) {
+          //  Spacer()
             HStack(spacing:20){
                 Spacer()
                 HStack {
@@ -72,6 +73,7 @@ struct CanvasView: View {
                                     .stroke( .black, lineWidth: 2)
                             )
                     }
+                    .disabled(isAnimating)
                     Button{
                         if !redoHistory.isEmpty {
                             let lastRedoAction = redoHistory.removeLast()
@@ -88,6 +90,8 @@ struct CanvasView: View {
                             )
                     }
                 }
+                .opacity(isAnimating ? 0 : 1)
+                .disabled(isAnimating)
                 HStack(spacing: 0) {
                     //новый кадр
                      Button{
@@ -113,37 +117,49 @@ struct CanvasView: View {
                              .colorInvert()
                         
                      }
-                }
-                //предыдущий кадр
-                Button{
-                    if currentFrameIndex > 0 {
-                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-                        currentFrameIndex -= 1
+                   // список кадров
+                    Button {
+                        // TODO: отображать список кадров(фиол если активно)
+                    } label: {
+                        Image("layers")
+                            .resizable()
+                                .frame(width: 38, height: 38)
+                            .colorInvert()
                     }
                 }
-            label: {
-                Image(systemName: "arrow.left")
-                
-            }
-                //следующий кадр
-                Button {
-                    if currentFrameIndex < frames.count - 1 {
-                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-                        currentFrameIndex += 1
-                    }
-                } label: {
-                    Image(systemName: "arrow.right")
-                    
-                }
+                .opacity(isAnimating ? 0 : 1)
+                .disabled(isAnimating)
+//                //предыдущий кадр
+//                Button{
+//                    if currentFrameIndex > 0 {
+//                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
+//                        currentFrameIndex -= 1
+//                    }
+//                }
+//            label: {
+//                Image(systemName: "arrow.left")
+//                
+//            }
+//                //следующий кадр
+//                Button {
+//                    if currentFrameIndex < frames.count - 1 {
+//                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
+//                        currentFrameIndex += 1
+//                    }
+//                } label: {
+//                    Image(systemName: "arrow.right")
+//                    
+//                }
                 Button {
                     if isAnimating { isAnimating = false
                         timer?.invalidate()
                         timer = nil
-                        currentFrameIndex = frames.count - 1}
+                        currentFrameIndex = frames.count - 1
+                    }
                    else {
                        currentFrameIndex = 0
                         isAnimating = true
-                               timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+                               timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
                                    currentFrameIndex = (currentFrameIndex + 1) % frames.count
                                }
                     }
@@ -152,15 +168,15 @@ struct CanvasView: View {
                 } label: {
                     Image(isAnimating ? "stop" : "play")
                         .resizable()
-                        .frame(width: 30, height: 30)
+                        .frame(width: 35, height: 35)
                 }
                 Spacer()
             }
-            Spacer()
+           // Spacer()
             ZStack {
                 paperImage
                     .resizable()
-                    .frame(width: 350, height: 600)
+                    .frame(width: 380, height: 500)
                 
                 ForEach(0..<frames.count, id: \.self) { index in
                     Canvas { context, size in
@@ -193,7 +209,7 @@ struct CanvasView: View {
                             }
                         }
                     }
-                    .frame(width: 350, height: 600)
+                    .frame(width: 380, height: 500)
                     .opacity(
                         isAnimating &&  index == currentFrameIndex ? 1 :
                                 isAnimating && index == currentFrameIndex - 1 ? 0 :
@@ -202,6 +218,7 @@ struct CanvasView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { dragValue in
+                            guard !isAnimating else { return }
                             if currentFrame.wrappedValue.lines.isEmpty {
                                 if let selectionModeIndex = selectionModeIndex, let mode = Mode(rawValue: selectionModeIndex) {
                                     currentFrame.wrappedValue.lines = [Line(color: selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: 5)]
@@ -220,11 +237,9 @@ struct CanvasView: View {
                             }
                         }
                 )
-                .frame(width: 350, height: 600)
             }
-            .frame(width: 350, height: 600)
             .cornerRadius(20)
-            Spacer()
+            //Spacer()
             HStack(spacing:20){
                 ColorPicker("", selection: $selectedColor)
                     .labelsHidden()
@@ -252,8 +267,22 @@ struct CanvasView: View {
                                 .stroke(selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
                         )
                 }
+                Button{
+                   // TODO: добавлять фигуры
+                } label: {
+                    Image(systemName: "triangle")
+                        .foregroundColor(selectionModeIndex == 1 ? Theme.accentColor : .black)
+                        .font(.system(size: 27))
+                        .padding(9)
+                        .overlay(
+                            Circle()
+                                .stroke(selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
+                        )
+                }
             }
-            Spacer()
+            .opacity(isAnimating ? 0 : 1)
+            .disabled(isAnimating)
+         //   Spacer()
         }
     }
 }

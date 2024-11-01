@@ -16,6 +16,7 @@
 		CE2E1E622CD0C78700BBDAE1 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E612CD0C78700BBDAE1 /* CanvasViewModel.swift */; };
 		CE2E1E652CD0D25900BBDAE1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E642CD0D25800BBDAE1 /* Theme.swift */; };
 		CE2E1E672CD0D27E00BBDAE1 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */; };
+		CE2E1E692CD54E4D00BBDAE1 /* FrameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		CE2E1E612CD0C78700BBDAE1 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
 		CE2E1E642CD0D25800BBDAE1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				CE2E1E5F2CD0C75900BBDAE1 /* CanvasView.swift */,
+				CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -192,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2E1E692CD54E4D00BBDAE1 /* FrameListView.swift in Sources */,
 				CE2E1E622CD0C78700BBDAE1 /* CanvasViewModel.swift in Sources */,
 				CE2E1E4E2CD0BA7E00BBDAE1 /* ContentView.swift in Sources */,
 				CE2E1E602CD0C75900BBDAE1 /* CanvasView.swift in Sources */,
