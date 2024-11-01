@@ -42,6 +42,9 @@ struct CanvasView: View {
     @State private var frames: [Frame] = [Frame()]
     @State private var currentFrameIndex = 0
     
+    @State private var isAnimating = false
+    @State private var timer: Timer? = nil
+    
     var currentFrame: Binding<Frame> {
         Binding(
             get: {frames[currentFrameIndex]},
@@ -53,44 +56,63 @@ struct CanvasView: View {
             Spacer()
             HStack(spacing:20){
                 Spacer()
-                Button{
-                    if !currentFrame.wrappedValue.lines.isEmpty {
-                        let lastAction = currentFrame.wrappedValue.lines.removeLast()
-                        redoHistory.append(lastAction)
+                HStack {
+                    Button{
+                        if !currentFrame.wrappedValue.lines.isEmpty {
+                            let lastAction = currentFrame.wrappedValue.lines.removeLast()
+                            redoHistory.append(lastAction)
+                        }
+                    } label: {
+                        Image(systemName: "arrow.uturn.backward")
+                            .foregroundColor(.black)
+                            .font(.system(size: 16))
+                            .padding(9)
+                            .overlay(
+                                Circle()
+                                    .stroke( .black, lineWidth: 2)
+                            )
                     }
-                } label: {
-                    Image(systemName: "arrow.uturn.backward")
-                        .foregroundColor(.black)
-                        .font(.system(size: 20))
-                        .padding(9)
-                        .overlay(
-                            Circle()
-                                .stroke( .black, lineWidth: 2)
-                        )
-                }
-                Button{
-                    if !redoHistory.isEmpty {
-                        let lastRedoAction = redoHistory.removeLast()
-                        currentFrame.wrappedValue.lines.append(lastRedoAction)
+                    Button{
+                        if !redoHistory.isEmpty {
+                            let lastRedoAction = redoHistory.removeLast()
+                            currentFrame.wrappedValue.lines.append(lastRedoAction)
+                        }
+                    } label: {
+                        Image(systemName: "arrow.uturn.right")
+                            .foregroundColor(.black)
+                            .font(.system(size: 16))
+                            .padding(9)
+                            .overlay(
+                                Circle()
+                                    .stroke( .black, lineWidth: 2)
+                            )
                     }
-                } label: {
-                    Image(systemName: "arrow.uturn.right")
-                        .foregroundColor(.black)
-                        .font(.system(size: 20))
-                        .padding(9)
-                        .overlay(
-                            Circle()
-                                .stroke( .black, lineWidth: 2)
-                        )
                 }
-                ColorPicker("", selection: $selectedColor)
-                    .labelsHidden()
-                //новый кадр
-                Button{
-                    frames.append(Frame())
-                    currentFrameIndex = frames.count - 1
-                } label: {
-                    Image(systemName: "plus")
+                HStack(spacing: 0) {
+                    //новый кадр
+                     Button{
+                        frames.append(Frame())
+                         currentFrameIndex = frames.count - 1
+                     } label: {
+                         Image("file-plus")
+                             .resizable()
+                                 .frame(width: 40, height: 40)
+                             .colorInvert()
+                        
+                     }
+                     //удалить текущий кадр
+                     Button{
+                         if currentFrameIndex > 0 {
+                             frames.remove(at: currentFrameIndex)
+                             currentFrameIndex = currentFrameIndex - 1
+                         }
+                     } label: {
+                         Image("remove")
+                             .resizable()
+                                 .frame(width: 40, height: 40)
+                             .colorInvert()
+                        
+                     }
                 }
                 //предыдущий кадр
                 Button{
@@ -112,6 +134,24 @@ struct CanvasView: View {
                 } label: {
                     Image(systemName: "arrow.right")
                     
+                }
+                Button {
+                    if isAnimating { isAnimating = false
+                        timer?.invalidate()
+                        timer = nil
+                        currentFrameIndex = frames.count - 1}
+                   else {
+                        isAnimating = true
+                               timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+                                   currentFrameIndex = (currentFrameIndex + 1) % frames.count
+                               }
+                    }
+                  
+                   
+                } label: {
+                    Image(isAnimating ? "stop" : "play")
+                        .resizable()
+                        .frame(width: 30, height: 30)
                 }
                 Spacer()
             }
@@ -153,7 +193,10 @@ struct CanvasView: View {
                         }
                     }
                     .frame(width: 350, height: 600)
-                    .opacity(index == currentFrameIndex ? 1 : (index == currentFrameIndex - 1 ? 0.3 : 0))
+                    .opacity(
+                        isAnimating &&  index == currentFrameIndex ? 1 :
+                                isAnimating && index == currentFrameIndex - 1 ? 0 :
+                        index == currentFrameIndex  ? 1 : (index == currentFrameIndex - 1 ? 0.3 : 0))
                 }
                 .gesture(
                     DragGesture()
@@ -182,6 +225,8 @@ struct CanvasView: View {
             .cornerRadius(20)
             Spacer()
             HStack(spacing:20){
+                ColorPicker("", selection: $selectedColor)
+                    .labelsHidden()
                 Button{
                     selectionModeIndex = 0
                 } label: {
