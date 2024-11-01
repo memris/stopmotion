@@ -141,6 +141,7 @@ struct CanvasView: View {
                         timer = nil
                         currentFrameIndex = frames.count - 1}
                    else {
+                       currentFrameIndex = 0
                         isAnimating = true
                                timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
                                    currentFrameIndex = (currentFrameIndex + 1) % frames.count
