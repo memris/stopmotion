@@ -7,181 +7,24 @@
 
 import SwiftUI
 
-enum Mode {
-    case draw
-    case erase
-    init?(rawValue: Int) {
-        switch rawValue {
-        case 0: self = .draw
-        case 1: self = .erase
-        default: return nil
-        }
-    }
-}
-
-struct Line {
-    var color: Color
-    var points: [CGPoint]
-    var mode: Mode
-    var lineWidth: CGFloat
-}
-
-struct Frame: Identifiable {
-    let id = UUID()
-    var lines: [Line] = []
-   // var miniature: Image
-}
-
 struct CanvasView: View {
-    @State private var selectionModeIndex: Int? = nil
-    @State private var lines: [Line] = []
-    private var paperImage: Image = Image("paper")
-    @State private var redoHistory: [Line] = []
-    @State private var selectedColor: Color = .black
-    @State private var isShowingColorPicker = false
+    @StateObject private var viewModel = CanvasViewModel()
     
-    @State private var frames: [Frame] = [Frame()]
-    @State private var currentFrameIndex = 0
-    
-    @State private var isAnimating = false
-    @State private var timer: Timer? = nil
-    
-    var currentFrame: Binding<Frame> {
-        Binding(
-            get: {frames[currentFrameIndex]},
-            set: {frames[currentFrameIndex] = $0})
-    }
     
     var body: some View {
         VStack(spacing: 10) {
-          //  Spacer()
-            HStack(spacing:20){
-                Spacer()
-                HStack {
-                    Button{
-                        if !currentFrame.wrappedValue.lines.isEmpty {
-                            let lastAction = currentFrame.wrappedValue.lines.removeLast()
-                            redoHistory.append(lastAction)
-                        }
-                    } label: {
-                        Image(systemName: "arrow.uturn.backward")
-                            .foregroundColor(.black)
-                            .font(.system(size: 16))
-                            .padding(9)
-                            .overlay(
-                                Circle()
-                                    .stroke( .black, lineWidth: 2)
-                            )
-                    }
-                    .disabled(isAnimating)
-                    Button{
-                        if !redoHistory.isEmpty {
-                            let lastRedoAction = redoHistory.removeLast()
-                            currentFrame.wrappedValue.lines.append(lastRedoAction)
-                        }
-                    } label: {
-                        Image(systemName: "arrow.uturn.right")
-                            .foregroundColor(.black)
-                            .font(.system(size: 16))
-                            .padding(9)
-                            .overlay(
-                                Circle()
-                                    .stroke( .black, lineWidth: 2)
-                            )
-                    }
-                }
-                .opacity(isAnimating ? 0 : 1)
-                .disabled(isAnimating)
-                HStack(spacing: 0) {
-                    //новый кадр
-                     Button{
-                        frames.append(Frame())
-                         currentFrameIndex = frames.count - 1
-                     } label: {
-                         Image("file-plus")
-                             .resizable()
-                                 .frame(width: 40, height: 40)
-                             .colorInvert()
-                        
-                     }
-                     //удалить текущий кадр
-                     Button{
-                         if currentFrameIndex > 0 {
-                             frames.remove(at: currentFrameIndex)
-                             currentFrameIndex = currentFrameIndex - 1
-                         }
-                     } label: {
-                         Image("remove")
-                             .resizable()
-                                 .frame(width: 40, height: 40)
-                             .colorInvert()
-                        
-                     }
-                   // список кадров
-                    Button {
-                        // TODO: отображать список кадров(фиол если активно)
-                    } label: {
-                        Image("layers")
-                            .resizable()
-                                .frame(width: 38, height: 38)
-                            .colorInvert()
-                    }
-                }
-                .opacity(isAnimating ? 0 : 1)
-                .disabled(isAnimating)
-//                //предыдущий кадр
-//                Button{
-//                    if currentFrameIndex > 0 {
-//                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-//                        currentFrameIndex -= 1
-//                    }
-//                }
-//            label: {
-//                Image(systemName: "arrow.left")
-//                
-//            }
-//                //следующий кадр
-//                Button {
-//                    if currentFrameIndex < frames.count - 1 {
-//                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-//                        currentFrameIndex += 1
-//                    }
-//                } label: {
-//                    Image(systemName: "arrow.right")
-//                    
-//                }
-                Button {
-                    if isAnimating { isAnimating = false
-                        timer?.invalidate()
-                        timer = nil
-                        currentFrameIndex = frames.count - 1
-                    }
-                   else {
-                       currentFrameIndex = 0
-                        isAnimating = true
-                               timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
-                                   currentFrameIndex = (currentFrameIndex + 1) % frames.count
-                               }
-                    }
-                  
-                   
-                } label: {
-                    Image(isAnimating ? "stop" : "play")
-                        .resizable()
-                        .frame(width: 35, height: 35)
-                }
-                Spacer()
-            }
-           // Spacer()
+            
+            FrameToolsButtonsView(viewModel: viewModel)
+            // Spacer()
             ZStack {
-                paperImage
+                viewModel.paperImage
                     .resizable()
                     .frame(width: 380, height: 500)
                 
-                ForEach(0..<frames.count, id: \.self) { index in
+                ForEach(0..<viewModel.frames.count, id: \.self) { index in
                     Canvas { context, size in
-                        if index == currentFrameIndex {
-                            for line in frames[index].lines {
+                        if index == viewModel.currentFrameIndex {
+                            for line in viewModel.frames[index].lines {
                                 var path = Path()
                                 path.addLines(line.points)
                                 
@@ -194,8 +37,8 @@ struct CanvasView: View {
                                 }
                             }
                         }
-                        if index == currentFrameIndex - 1 && currentFrameIndex > 0 {
-                            for line in frames[index].lines {
+                        if index == viewModel.currentFrameIndex - 1 && viewModel.currentFrameIndex > 0 {
+                            for line in viewModel.frames[index].lines {
                                 var path = Path()
                                 path.addLines(line.points)
                                 
@@ -211,27 +54,27 @@ struct CanvasView: View {
                     }
                     .frame(width: 380, height: 500)
                     .opacity(
-                        isAnimating &&  index == currentFrameIndex ? 1 :
-                                isAnimating && index == currentFrameIndex - 1 ? 0 :
-                        index == currentFrameIndex  ? 1 : (index == currentFrameIndex - 1 ? 0.3 : 0))
+                        viewModel.isAnimating &&  index == viewModel.currentFrameIndex ? 1 :
+                            viewModel.isAnimating && index == viewModel.currentFrameIndex - 1 ? 0 :
+                            index == viewModel.currentFrameIndex  ? 1 : (index == viewModel.currentFrameIndex - 1 ? 0.3 : 0))
                 }
                 .gesture(
                     DragGesture()
                         .onChanged { dragValue in
-                            guard !isAnimating else { return }
-                            if currentFrame.wrappedValue.lines.isEmpty {
-                                if let selectionModeIndex = selectionModeIndex, let mode = Mode(rawValue: selectionModeIndex) {
-                                    currentFrame.wrappedValue.lines = [Line(color: selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: 5)]
+                            guard !viewModel.isAnimating else { return }
+                            if viewModel.currentFrame.wrappedValue.lines.isEmpty {
+                                if let selectionModeIndex = viewModel.selectionModeIndex, let mode = Mode(rawValue: selectionModeIndex) {
+                                    viewModel.currentFrame.wrappedValue.lines = [Line(color: viewModel.selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: 5)]
                                 }
                             } else {
-                                let lastLine = currentFrame.wrappedValue.lines[currentFrame.wrappedValue.lines.count - 1]
-                                if let selectionModeIndex = selectionModeIndex {
+                                let lastLine = viewModel.currentFrame.wrappedValue.lines[viewModel.currentFrame.wrappedValue.lines.count - 1]
+                                if let selectionModeIndex = viewModel.selectionModeIndex {
                                     if dragValue.startLocation != lastLine.points.first! || lastLine.mode != Mode(rawValue: selectionModeIndex)! {
-                                        let newLine = Line(color: selectedColor, points: [dragValue.startLocation], mode: Mode(rawValue: selectionModeIndex)!, lineWidth: 5)
-                                        currentFrame.wrappedValue.lines.append(newLine)
+                                        let newLine = Line(color: viewModel.selectedColor, points: [dragValue.startLocation], mode: Mode(rawValue: selectionModeIndex)!, lineWidth: 5)
+                                        viewModel.currentFrame.wrappedValue.lines.append(newLine)
                                     } else {
-                                        currentFrame.wrappedValue.lines[currentFrame.wrappedValue.lines.count - 1].points.append(dragValue.location)
-                                        currentFrame.wrappedValue = currentFrame.wrappedValue
+                                        viewModel.currentFrame.wrappedValue.lines[viewModel.currentFrame.wrappedValue.lines.count - 1].points.append(dragValue.location)
+                                        viewModel.currentFrame.wrappedValue = viewModel.currentFrame.wrappedValue
                                     }
                                 }
                             }
@@ -240,55 +83,13 @@ struct CanvasView: View {
             }
             .cornerRadius(20)
             //Spacer()
-            HStack(spacing:20){
-                ColorPicker("", selection: $selectedColor)
-                    .labelsHidden()
-                Button{
-                    selectionModeIndex = 0
-                } label: {
-                    Image(systemName: "pencil")
-                        .foregroundColor(selectionModeIndex == 0 ? Theme.accentColor : .black)
-                        .font(.system(size: 30))
-                        .padding(9)
-                        .overlay(
-                            Circle()
-                                .stroke(selectionModeIndex == 0 ? Theme.accentColor : .black, lineWidth: 3)
-                        )
-                }
-                Button{
-                    selectionModeIndex = 1
-                } label: {
-                    Image(systemName: "eraser")
-                        .foregroundColor(selectionModeIndex == 1 ? Theme.accentColor : .black)
-                        .font(.system(size: 27))
-                        .padding(9)
-                        .overlay(
-                            Circle()
-                                .stroke(selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
-                        )
-                }
-                Button{
-                   // TODO: добавлять фигуры
-                } label: {
-                    Image(systemName: "triangle")
-                        .foregroundColor(selectionModeIndex == 1 ? Theme.accentColor : .black)
-                        .font(.system(size: 27))
-                        .padding(9)
-                        .overlay(
-                            Circle()
-                                .stroke(selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
-                        )
-                }
-            }
-            .opacity(isAnimating ? 0 : 1)
-            .disabled(isAnimating)
-         //   Spacer()
+            PaintToolsButtonsView(viewModel: viewModel)
         }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        CanvasView()
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            CanvasView()
+        }
     }
 }

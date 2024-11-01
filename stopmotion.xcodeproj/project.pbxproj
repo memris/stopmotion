@@ -17,6 +17,11 @@
 		CE2E1E652CD0D25900BBDAE1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E642CD0D25800BBDAE1 /* Theme.swift */; };
 		CE2E1E672CD0D27E00BBDAE1 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */; };
 		CE2E1E692CD54E4D00BBDAE1 /* FrameListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */; };
+		CE2E1E6B2CD552CF00BBDAE1 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E6A2CD552CF00BBDAE1 /* Line.swift */; };
+		CE2E1E6D2CD552DB00BBDAE1 /* Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E6C2CD552DB00BBDAE1 /* Frame.swift */; };
+		CE2E1E6F2CD552E300BBDAE1 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E6E2CD552E300BBDAE1 /* Mode.swift */; };
+		CE2E1E712CD5669100BBDAE1 /* FrameToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */; };
+		CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +36,11 @@
 		CE2E1E642CD0D25800BBDAE1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		CE2E1E662CD0D27E00BBDAE1 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameListView.swift; sourceTree = "<group>"; };
+		CE2E1E6A2CD552CF00BBDAE1 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		CE2E1E6C2CD552DB00BBDAE1 /* Frame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Frame.swift; sourceTree = "<group>"; };
+		CE2E1E6E2CD552E300BBDAE1 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
+		CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameToolsButtonsView.swift; sourceTree = "<group>"; };
+		CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintToolsButtonsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +97,9 @@
 			isa = PBXGroup;
 			children = (
 				CE2E1E5D2CD0C73700BBDAE1 /* Animation.swift */,
+				CE2E1E6A2CD552CF00BBDAE1 /* Line.swift */,
+				CE2E1E6C2CD552DB00BBDAE1 /* Frame.swift */,
+				CE2E1E6E2CD552E300BBDAE1 /* Mode.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -96,6 +109,8 @@
 			children = (
 				CE2E1E5F2CD0C75900BBDAE1 /* CanvasView.swift */,
 				CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */,
+				CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */,
+				CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -201,8 +216,13 @@
 				CE2E1E602CD0C75900BBDAE1 /* CanvasView.swift in Sources */,
 				CE2E1E672CD0D27E00BBDAE1 /* Colors.swift in Sources */,
 				CE2E1E652CD0D25900BBDAE1 /* Theme.swift in Sources */,
+				CE2E1E6B2CD552CF00BBDAE1 /* Line.swift in Sources */,
 				CE2E1E5E2CD0C73700BBDAE1 /* Animation.swift in Sources */,
+				CE2E1E712CD5669100BBDAE1 /* FrameToolsButtonsView.swift in Sources */,
+				CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */,
 				CE2E1E4C2CD0BA7E00BBDAE1 /* stopmotionApp.swift in Sources */,
+				CE2E1E6F2CD552E300BBDAE1 /* Mode.swift in Sources */,
+				CE2E1E6D2CD552DB00BBDAE1 /* Frame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
