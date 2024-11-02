@@ -76,11 +76,13 @@ struct FrameToolsButtonsView: View {
                 // список кадров
                 Button {
                     // TODO: отображать список кадров(фиол если активно)
+                    withAnimation(.easeInOut(duration: 0.3)){
+                        viewModel.isShowingFrameList.toggle()
+                    }
                 } label: {
-                    Image("layers")
+                    Image(viewModel.isShowingFrameList ? "layers-active" : "layers")
                         .resizable()
                         .frame(width: 38, height: 38)
-                        .colorInvert()
                 }
             }
             .opacity(viewModel.isAnimating ? 0 : 1)

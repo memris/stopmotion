@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct CanvasView: View {
-    @StateObject private var viewModel = CanvasViewModel()
-    
+    @ObservedObject var viewModel: CanvasViewModel
     
     var body: some View {
         VStack(spacing: 10) {
-            
-            FrameToolsButtonsView(viewModel: viewModel)
-            // Spacer()
             ZStack {
                 viewModel.paperImage
                     .resizable()
@@ -82,14 +78,6 @@ struct CanvasView: View {
                 )
             }
             .cornerRadius(20)
-            //Spacer()
-            PaintToolsButtonsView(viewModel: viewModel)
-        }
-    }
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            CanvasView()
         }
     }
 }

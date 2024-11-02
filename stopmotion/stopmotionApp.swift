@@ -11,7 +11,7 @@ import SwiftUI
 struct stopmotionApp: App {
     var body: some Scene {
         WindowGroup {
-            CanvasView()
+            ContentView()
         }
     }
 }

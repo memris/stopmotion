@@ -22,6 +22,7 @@
 		CE2E1E6F2CD552E300BBDAE1 /* Mode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E6E2CD552E300BBDAE1 /* Mode.swift */; };
 		CE2E1E712CD5669100BBDAE1 /* FrameToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */; };
 		CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */; };
+		CE2E1E752CD56EEC00BBDAE1 /* MiniatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		CE2E1E6E2CD552E300BBDAE1 /* Mode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mode.swift; sourceTree = "<group>"; };
 		CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameToolsButtonsView.swift; sourceTree = "<group>"; };
 		CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintToolsButtonsView.swift; sourceTree = "<group>"; };
+		CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniatureView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				CE2E1E682CD54E4D00BBDAE1 /* FrameListView.swift */,
 				CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */,
 				CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */,
+				CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				CE2E1E6B2CD552CF00BBDAE1 /* Line.swift in Sources */,
 				CE2E1E5E2CD0C73700BBDAE1 /* Animation.swift in Sources */,
 				CE2E1E712CD5669100BBDAE1 /* FrameToolsButtonsView.swift in Sources */,
+				CE2E1E752CD56EEC00BBDAE1 /* MiniatureView.swift in Sources */,
 				CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */,
 				CE2E1E4C2CD0BA7E00BBDAE1 /* stopmotionApp.swift in Sources */,
 				CE2E1E6F2CD552E300BBDAE1 /* Mode.swift in Sources */,

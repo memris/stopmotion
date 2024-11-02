@@ -8,16 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = CanvasViewModel()
     var body: some View {
         VStack {
-            CanvasView()
-          
+            FrameToolsButtonsView(viewModel: viewModel)
+            CanvasView(viewModel: viewModel)
+            FrameListView(viewModel: viewModel)
+            PaintToolsButtonsView(viewModel: viewModel)
         }
-        .padding()
-        .background(Color(AppColors.surface))
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

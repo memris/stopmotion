@@ -38,22 +38,21 @@ struct PaintToolsButtonsView: View {
                             .stroke(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
                     )
             }
-            Button{
-                // TODO: добавлять фигуры
-            } label: {
-                Image(systemName: "triangle")
-                    .foregroundColor(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black)
-                    .font(.system(size: 27))
-                    .padding(9)
-                    .overlay(
-                        Circle()
-                            .stroke(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
-                    )
-            }
+//            Button{
+//                // TODO: добавлять фигуры
+//            } label: {
+//                Image(systemName: "triangle")
+//                    .foregroundColor(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black)
+//                    .font(.system(size: 27))
+//                    .padding(9)
+//                    .overlay(
+//                        Circle()
+//                            .stroke(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
+//                    )
+//            }
         }
         .opacity(viewModel.isAnimating ? 0 : 1)
         .disabled(viewModel.isAnimating)
-        //   Spacer()
     }
 }
 
