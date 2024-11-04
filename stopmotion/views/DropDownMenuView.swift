@@ -12,25 +12,41 @@ struct DropDownMenuView: View {
     @ObservedObject var viewModel: CanvasViewModel
     @AppStorage("isDarkMode") private var isDarkMode = false
     
-    @State private var generateCount = 1
+    @State private var generateCount: String = "1"
     @State private var isShowingAlert = false
+    
+    @FocusState private var isInputActive: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
-            let generateRange = 1...(Int.max - viewModel.frames.count)
-            Stepper(value: $generateCount, in: generateRange) {
-                Button("Сгенерировать: \(generateCount)") {
-                    viewModel.generateRandomFrames(count: generateCount, canvasSize: CGSize(width: 400, height: 450))
+            HStack {
+                Text("Количество для генерации:")
+                    .foregroundColor(Theme.onSurface)
+                TextField("Введите количество", text: $generateCount)
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .frame(width: 80)
+                    .focused($isInputActive)
+            }
+            Button("Сгенерировать: \(generateCount)") {
+                
+                if let count = Int(generateCount), count > 0 {
+                    viewModel.generateRandomFrames(count: count, canvasSize: CGSize(width: 400, height: 450))
                     withAnimation {
                         viewModel.isMenuOpen = false
                     }
+                    isInputActive = false 
+                } else {
+                    print("Ошибка: Введите корректное число")
                 }
-                .foregroundColor(Theme.onSurface)
             }
+            .foregroundColor(Theme.accentColor)
             Stepper(value: $viewModel.animationSpeed, in: 0.25...3.0, step: 0.25) {
                 Text("Скорость: \(viewModel.animationSpeed, specifier: "%.2f")")
                     .foregroundColor(Theme.onSurface)
             }
+            .accentColor(Theme.onSurface)
+            
             Button {
                 isShowingAlert = true
             } label: {
