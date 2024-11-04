@@ -7,8 +7,20 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct Theme {
-    static let backgroundColor = AppColors.surface
-    static let accentColor = AppColors.primary
-    static let onSurface = AppColors.onSurface
+    @AppStorage("isDarkMode") static private var isDarkMode = true
+    
+    static var backgroundColor: Color {
+        isDarkMode ? AppColors.darkBackground : AppColors.lightBackground
+    }
+    
+    static var accentColor: Color {
+        isDarkMode ? AppColors.darkAccent : AppColors.lightAccent
+    }
+    
+    static var onSurface: Color {
+        isDarkMode ? AppColors.darkOnSurface :  AppColors.lightOnSurface  
+    }
 }

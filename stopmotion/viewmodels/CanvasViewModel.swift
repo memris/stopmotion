@@ -15,7 +15,7 @@ class CanvasViewModel: ObservableObject {
     
     @Published var redoHistory: [Line] = []
     
-    @Published var selectedColor: Color = .black
+    @Published var selectedColor: Color = Theme.onSurface
     
     @Published var isShowingFrameList = false
     

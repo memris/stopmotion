@@ -21,12 +21,12 @@ struct FrameToolsButtonsView: View {
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
-                        .foregroundColor(.black)
+                        .foregroundColor(Theme.onSurface)
                         .font(.system(size: 16))
                         .padding(9)
                         .overlay(
                             Circle()
-                                .stroke( .black, lineWidth: 2)
+                                .stroke( Theme.onSurface, lineWidth: 2)
                         )
                 }
                 .disabled(viewModel.isAnimating)
@@ -37,12 +37,12 @@ struct FrameToolsButtonsView: View {
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.right")
-                        .foregroundColor(.black)
+                        .foregroundColor(Theme.onSurface)
                         .font(.system(size: 16))
                         .padding(9)
                         .overlay(
                             Circle()
-                                .stroke( .black, lineWidth: 2)
+                                .stroke( Theme.onSurface, lineWidth: 2)
                         )
                 }
             }
@@ -50,15 +50,15 @@ struct FrameToolsButtonsView: View {
             .disabled(viewModel.isAnimating)
             HStack(spacing: 6) {
                 //новый кадр
-                Button{
+                Button {
                     viewModel.frames.append(Frame())
                     viewModel.currentFrameIndex = viewModel.frames.count - 1
                 } label: {
-                    Image("file-plus")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .colorInvert()
-                    
+                  Image(systemName: "doc.badge.plus")
+                        .renderingMode(.template)
+                        .foregroundColor(Theme.onSurface)
+                        .font(.system(size: 28))
+                        .padding(9)
                 }
                 //удалить текущий кадр
                 Button{
@@ -71,10 +71,10 @@ struct FrameToolsButtonsView: View {
                         viewModel.currentFrameIndex = viewModel.currentFrameIndex - 1
                     }
                 } label: {
-                    Image("remove")
-                        .resizable()
-                        .frame(width: 42, height: 42)
-                        .colorInvert()
+                    Image(systemName: "trash")
+                          .foregroundColor(Theme.onSurface)
+                          .font(.system(size: 28))
+                          .padding(6)
                     
                 }
                 // список кадров
@@ -83,19 +83,20 @@ struct FrameToolsButtonsView: View {
                         viewModel.isShowingFrameList.toggle()
                     }
                 } label: {
-                    Image(viewModel.isShowingFrameList ? "layers-active" : "layers")
-                        .resizable()
-                        .frame(width: 38, height: 38)
+                    Image(systemName: "square.3.layers.3d.down.left")
+                        .foregroundColor(viewModel.isShowingFrameList ? Theme.accentColor : Theme.onSurface)
+                        .font(.system(size: 28))
+                        .padding(6)
                 }
                 //дублирование кадра
                 Button {
                     viewModel.duplicateCurrentFrame()
                 } 
             label: {
-                Image("dublicate")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 35, height: 35)
+                Image(systemName: "doc.on.doc")
+                    .foregroundColor(Theme.onSurface)
+                    .font(.system(size: 24))
+                    .padding(6)
             }
             }
             .opacity(viewModel.isAnimating ? 0 : 1)

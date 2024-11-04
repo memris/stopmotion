@@ -10,6 +10,11 @@ import SwiftUI
 struct CanvasView: View {
     @ObservedObject var viewModel: CanvasViewModel
     
+    @State private var scale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var lastOffset: CGSize = .zero
+    
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
@@ -63,7 +68,7 @@ struct CanvasView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { dragValue in
-                            guard !viewModel.isAnimating else { return }
+                            guard !viewModel.isAnimating,viewModel.selectionModeIndex != nil else { return }
                             if viewModel.currentFrame.wrappedValue.lines.isEmpty {
                                 if let selectionModeIndex = viewModel.selectionModeIndex, let mode = Mode(rawValue: selectionModeIndex) {
                                     viewModel.currentFrame.wrappedValue.lines = [Line(color: viewModel.selectedColor, points: [dragValue.startLocation], mode: mode, lineWidth: viewModel.lineWidth)]
@@ -84,6 +89,27 @@ struct CanvasView: View {
                         }
                 )
             }
+            .scaleEffect(scale)
+            .offset(offset)
+            .gesture(
+                SimultaneousGesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            scale = lastScale * value
+                        }
+                        .onEnded { value in
+                            lastScale = scale
+                        },
+                    DragGesture()
+                        .onChanged { value in
+                            offset = CGSize(width: lastOffset.width + value.translation.width,
+                                            height: lastOffset.height + value.translation.height)
+                        }
+                        .onEnded { value in
+                            lastOffset = offset
+                        }
+                )
+            )
             .cornerRadius(20)
         }
     }

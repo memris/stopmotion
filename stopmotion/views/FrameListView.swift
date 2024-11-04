@@ -15,6 +15,7 @@ struct FrameListView: View {
             ScrollView(.horizontal) {
                 HStack {
                     Spacer()
+                        .frame(width: 40)
                     ForEach(viewModel.frames) { frame in
                         MiniatureView(frame: frame)
                             .onTapGesture {
@@ -25,7 +26,7 @@ struct FrameListView: View {
                             .background(
                                 viewModel.currentFrameIndex == viewModel.frames.firstIndex(where: { $0.id == frame.id }) ?
                                 RoundedRectangle(cornerRadius: 8)
-                                    .fill(Theme.accentColor.opacity(0.2)) 
+                                    .fill(Theme.accentColor.opacity(0.2))
                                 : nil
                             )
                     }

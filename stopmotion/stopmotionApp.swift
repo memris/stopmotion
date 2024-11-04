@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct stopmotionApp: App {
+    @AppStorage("isDarkMode") private var isDarkMode = false
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

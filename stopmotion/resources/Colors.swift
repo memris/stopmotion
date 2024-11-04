@@ -26,7 +26,12 @@ extension UIColor {
 }
 
 struct AppColors {
-    static let primary = Color(UIColor(rgb: 0x9C9BF8))
-    static let surface = Color(UIColor(rgb: 0xF2F2F2))
-    static let onSurface = Color(UIColor(rgb: 0x0F0F0F))
+    static let lightBackground = Color(UIColor(rgb: 0xF2F2F2))
+    static let darkBackground = Color(UIColor(rgb: 0x1C1C1E))
+    
+    static let lightAccent = Color(UIColor(rgb: 0x9C9BF8))
+    static let darkAccent = Color(UIColor(rgb: 0x5A5AE8))
+    
+    static let lightOnSurface = Color(UIColor(rgb: 0x0F0F0F))
+    static let darkOnSurface = Color(UIColor(rgb: 0xFFFFFF))
 }
