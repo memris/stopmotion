@@ -10,5 +10,5 @@ import SwiftUI
 struct Theme {
     static let backgroundColor = AppColors.surface
     static let accentColor = AppColors.primary
-    static let grayText = AppColors.onSurface
+    static let onSurface = AppColors.onSurface
 }

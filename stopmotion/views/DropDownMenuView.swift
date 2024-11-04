@@ -14,16 +14,17 @@ struct DropDownMenuView: View {
     @State private var isShowingAlert = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 25) {
             let generateRange = 1...(Int.max - viewModel.frames.count)
             Stepper(value: $generateCount, in: generateRange) {
                 Button("Сгенерировать: \(generateCount)") {
                     viewModel.generateRandomFrames(count: generateCount, canvasSize: CGSize(width: 400, height: 450))
                     viewModel.isMenuOpen = false
-                }.foregroundColor(Theme.accentColor)
+                }.foregroundColor(Theme.onSurface)
             }
             Stepper(value: $viewModel.animationSpeed, in: 0.25...3.0, step: 0.25) {
                 Text("Скорость: \(viewModel.animationSpeed, specifier: "%.2f")")
+                    .foregroundStyle(Theme.onSurface)
             }
             Button {
                 isShowingAlert = true

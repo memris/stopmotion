@@ -62,6 +62,10 @@ struct FrameToolsButtonsView: View {
                 }
                 //удалить текущий кадр
                 Button{
+                    if viewModel.currentFrameIndex == 0 {
+                        viewModel.frames.removeLast()
+                        viewModel.frames = [Frame()]
+                    }
                     if viewModel.currentFrameIndex > 0 {
                         viewModel.frames.remove(at: viewModel.currentFrameIndex)
                         viewModel.currentFrameIndex = viewModel.currentFrameIndex - 1
@@ -69,7 +73,7 @@ struct FrameToolsButtonsView: View {
                 } label: {
                     Image("remove")
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 42, height: 42)
                         .colorInvert()
                     
                 }
@@ -96,27 +100,6 @@ struct FrameToolsButtonsView: View {
             }
             .opacity(viewModel.isAnimating ? 0 : 1)
             .disabled(viewModel.isAnimating)
-            //                //предыдущий кадр
-            //                Button{
-            //                    if currentFrameIndex > 0 {
-            //                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-            //                        currentFrameIndex -= 1
-            //                    }
-            //                }
-            //            label: {
-            //                Image(systemName: "arrow.left")
-            //
-            //            }
-            //                //следующий кадр
-            //                Button {
-            //                    if currentFrameIndex < frames.count - 1 {
-            //                        frames[currentFrameIndex].lines = currentFrame.wrappedValue.lines
-            //                        currentFrameIndex += 1
-            //                    }
-            //                } label: {
-            //                    Image(systemName: "arrow.right")
-            //
-            //                }
             Button {
                 if viewModel.isAnimating {
                     viewModel.stopAnimation()

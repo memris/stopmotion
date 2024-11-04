@@ -9,38 +9,43 @@ import SwiftUI
 
 struct PaintToolsButtonsView: View {
     @ObservedObject var viewModel: CanvasViewModel
-    // @State private var isMenuOpen = false
     @State private var selectedOption = ""
     
     var body: some View {
         HStack(spacing:20){
+            Spacer()
             ColorPicker("", selection: $viewModel.selectedColor)
                 .labelsHidden()
-            Button{
-                viewModel.selectionModeIndex = 0
-            } label: {
-                Image(systemName: "pencil")
-                    .foregroundColor(viewModel.selectionModeIndex == 0 ? Theme.accentColor : .black)
-                    .font(.system(size: 30))
-                    .padding(9)
-                    .overlay(
-                        Circle()
-                            .stroke(viewModel.selectionModeIndex == 0 ? Theme.accentColor : .black, lineWidth: 3)
-                    )
+            VStack {
+                Slider(value: $viewModel.lineWidth, in: 1...10)
+                    .padding()
+                HStack{
+                    Button{
+                        viewModel.selectionModeIndex = 0
+                    } label: {
+                        Image(systemName: "pencil")
+                            .foregroundColor(viewModel.selectionModeIndex == 0 ? Theme.accentColor : .black)
+                            .font(.system(size: 30))
+                            .padding(9)
+                            .overlay(
+                                Circle()
+                                    .stroke(viewModel.selectionModeIndex == 0 ? Theme.accentColor : .black, lineWidth: 3)
+                            )
+                    }
+                    Button{
+                        viewModel.selectionModeIndex = 1
+                    } label: {
+                        Image(systemName: "eraser")
+                            .foregroundColor(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black)
+                            .font(.system(size: 27))
+                            .padding(9)
+                            .overlay(
+                                Circle()
+                                    .stroke(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
+                            )
+                    }
+                }
             }
-            Button{
-                viewModel.selectionModeIndex = 1
-            } label: {
-                Image(systemName: "eraser")
-                    .foregroundColor(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black)
-                    .font(.system(size: 27))
-                    .padding(9)
-                    .overlay(
-                        Circle()
-                            .stroke(viewModel.selectionModeIndex == 1 ? Theme.accentColor : .black, lineWidth: 3)
-                    )
-            }
-            
             Button{
                 withAnimation {
                     viewModel.isMenuOpen.toggle()
@@ -56,6 +61,7 @@ struct PaintToolsButtonsView: View {
                             .stroke( .black, lineWidth: 3)
                     )
             }
+            Spacer()
             //            .overlay(
             //            DropDownMenuView(viewModel: viewModel)
             //            )

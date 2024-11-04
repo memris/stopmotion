@@ -11,6 +11,8 @@ class CanvasViewModel: ObservableObject {
     @Published var selectionModeIndex: Int? = nil
     
     @Published var lines: [Line] = []
+    @Published var lineWidth: CGFloat = 3
+    
     @Published var redoHistory: [Line] = []
     
     @Published var selectedColor: Color = .black
@@ -41,6 +43,11 @@ class CanvasViewModel: ObservableObject {
     
     
     var paperImage: Image = Image("paper")
+    
+    
+    func updateLineWidth(newLineWidth: CGFloat) {
+        lineWidth = newLineWidth
+    }
     
     func generateRandomFrames(count: Int, canvasSize: CGSize) {
         var randomFrames: [Frame] = []
@@ -108,7 +115,7 @@ class CanvasViewModel: ObservableObject {
     
     func duplicateCurrentFrame() {
         guard !frames.isEmpty, currentFrameIndex < frames.count else { return }
-
+        
         let newFrame = Frame(
             lines: frames[currentFrameIndex].lines.map { $0 }
         )
