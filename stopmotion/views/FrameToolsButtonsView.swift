@@ -51,10 +51,11 @@ struct FrameToolsButtonsView: View {
             HStack(spacing: 6) {
                 //новый кадр
                 Button {
-                    viewModel.frames.append(Frame())
-                    viewModel.currentFrameIndex = viewModel.frames.count - 1
+                    let newFrame = Frame()
+                    viewModel.frames.insert(newFrame, at: viewModel.currentFrameIndex + 1)
+                    viewModel.currentFrameIndex += 1
                 } label: {
-                  Image(systemName: "doc.badge.plus")
+                    Image(systemName: "doc.badge.plus")
                         .renderingMode(.template)
                         .foregroundColor(Theme.onSurface)
                         .font(.system(size: 28))
@@ -72,9 +73,9 @@ struct FrameToolsButtonsView: View {
                     }
                 } label: {
                     Image(systemName: "trash")
-                          .foregroundColor(Theme.onSurface)
-                          .font(.system(size: 28))
-                          .padding(6)
+                        .foregroundColor(Theme.onSurface)
+                        .font(.system(size: 28))
+                        .padding(6)
                     
                 }
                 // список кадров
@@ -91,7 +92,7 @@ struct FrameToolsButtonsView: View {
                 //дублирование кадра
                 Button {
                     viewModel.duplicateCurrentFrame()
-                } 
+                }
             label: {
                 Image(systemName: "doc.on.doc")
                     .foregroundColor(Theme.onSurface)
