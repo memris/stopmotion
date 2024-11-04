@@ -23,6 +23,7 @@
 		CE2E1E712CD5669100BBDAE1 /* FrameToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */; };
 		CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */; };
 		CE2E1E752CD56EEC00BBDAE1 /* MiniatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */; };
+		CE2E1E772CD8ABA100BBDAE1 /* DropDownMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E1E762CD8ABA100BBDAE1 /* DropDownMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameToolsButtonsView.swift; sourceTree = "<group>"; };
 		CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintToolsButtonsView.swift; sourceTree = "<group>"; };
 		CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniatureView.swift; sourceTree = "<group>"; };
+		CE2E1E762CD8ABA100BBDAE1 /* DropDownMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 				CE2E1E702CD5669100BBDAE1 /* FrameToolsButtonsView.swift */,
 				CE2E1E722CD5692A00BBDAE1 /* PaintToolsButtonsView.swift */,
 				CE2E1E742CD56EEC00BBDAE1 /* MiniatureView.swift */,
+				CE2E1E762CD8ABA100BBDAE1 /* DropDownMenuView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				CE2E1E752CD56EEC00BBDAE1 /* MiniatureView.swift in Sources */,
 				CE2E1E732CD5692B00BBDAE1 /* PaintToolsButtonsView.swift in Sources */,
 				CE2E1E4C2CD0BA7E00BBDAE1 /* stopmotionApp.swift in Sources */,
+				CE2E1E772CD8ABA100BBDAE1 /* DropDownMenuView.swift in Sources */,
 				CE2E1E6F2CD552E300BBDAE1 /* Mode.swift in Sources */,
 				CE2E1E6D2CD552DB00BBDAE1 /* Frame.swift in Sources */,
 			);

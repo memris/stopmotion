@@ -109,20 +109,11 @@ struct FrameToolsButtonsView: View {
             //
             //                }
             Button {
-                if viewModel.isAnimating { viewModel.isAnimating = false
-                    viewModel.timer?.invalidate()
-                    viewModel.timer = nil
-                    viewModel.currentFrameIndex = viewModel.frames.count - 1
+                if viewModel.isAnimating {
+                    viewModel.stopAnimation()
+                } else {
+                    viewModel.startAnimation()
                 }
-                else {
-                    viewModel.currentFrameIndex = 0
-                    viewModel.isAnimating = true
-                    viewModel.timer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { _ in
-                        viewModel.currentFrameIndex = (viewModel.currentFrameIndex + 1) % viewModel.frames.count
-                    }
-                }
-                
-                
             } label: {
                 Image(viewModel.isAnimating ? "stop" : "play")
                     .resizable()

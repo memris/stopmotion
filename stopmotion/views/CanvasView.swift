@@ -13,9 +13,14 @@ struct CanvasView: View {
     var body: some View {
         VStack(spacing: 10) {
             ZStack {
+                if viewModel.isMenuOpen {
+                    DropDownMenuView(viewModel: viewModel)
+                        .transition(.move(edge: .bottom))
+                        .zIndex(1)
+                }
                 viewModel.paperImage
                     .resizable()
-                    .frame(width: 380, height: 500)
+                    .frame(width: 450, height: 500)
                 
                 ForEach(0..<viewModel.frames.count, id: \.self) { index in
                     Canvas { context, size in

@@ -24,9 +24,14 @@ struct Frame: Identifiable {
             context.cgContext.scaleBy(x: scale, y: scale)
             
             for line in lines {
-                context.cgContext.setStrokeColor(UIColor(line.color).cgColor)
-                //context.cgContext.setLineWidth(line.lineWidth)
-                context.cgContext.setLineWidth(line.lineWidth / scale / 2)
+                if line.mode == .draw {
+                          context.cgContext.setBlendMode(.normal)
+                          context.cgContext.setStrokeColor(UIColor(line.color).cgColor)
+                          context.cgContext.setLineWidth(line.lineWidth / scale / 2)
+                      } else {
+                          context.cgContext.setBlendMode(.clear)
+                          context.cgContext.setLineWidth(line.lineWidth / scale / 2)
+                      }
                 context.cgContext.setLineCap(.round)
                 
                 guard let firstPoint = line.points.first else {continue}
