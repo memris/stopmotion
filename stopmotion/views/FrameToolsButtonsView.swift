@@ -48,7 +48,7 @@ struct FrameToolsButtonsView: View {
             }
             .opacity(viewModel.isAnimating ? 0 : 1)
             .disabled(viewModel.isAnimating)
-            HStack(spacing: 0) {
+            HStack(spacing: 6) {
                 //новый кадр
                 Button{
                     viewModel.frames.append(Frame())
@@ -75,7 +75,6 @@ struct FrameToolsButtonsView: View {
                 }
                 // список кадров
                 Button {
-                    // TODO: отображать список кадров(фиол если активно)
                     withAnimation(.easeInOut(duration: 0.3)){
                         viewModel.isShowingFrameList.toggle()
                     }
@@ -84,6 +83,16 @@ struct FrameToolsButtonsView: View {
                         .resizable()
                         .frame(width: 38, height: 38)
                 }
+                //дублирование кадра
+                Button {
+                    viewModel.duplicateCurrentFrame()
+                } 
+            label: {
+                Image("dublicate")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 35, height: 35)
+            }
             }
             .opacity(viewModel.isAnimating ? 0 : 1)
             .disabled(viewModel.isAnimating)

@@ -106,5 +106,17 @@ class CanvasViewModel: ObservableObject {
         currentFrameIndex = frames.count - 1
     }
     
-    
+    func duplicateCurrentFrame() {
+        guard !frames.isEmpty, currentFrameIndex < frames.count else { return }
+
+        let newFrame = Frame(
+            lines: frames[currentFrameIndex].lines.map { $0 }
+        )
+        let insertIndex = currentFrameIndex + 1
+        if currentFrameIndex < frames.count - 1 {
+            frames.insert(newFrame, at: insertIndex)
+        } else {
+            frames.append(newFrame)
+        }
+    }
 }

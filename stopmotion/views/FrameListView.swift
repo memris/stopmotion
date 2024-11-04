@@ -22,6 +22,12 @@ struct FrameListView: View {
                                     viewModel.currentFrameIndex = index
                                 }
                             }
+                            .background(
+                                viewModel.currentFrameIndex == viewModel.frames.firstIndex(where: { $0.id == frame.id }) ?
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Theme.accentColor.opacity(0.2)) 
+                                : nil
+                            )
                     }
                 }
                 .opacity(viewModel.isAnimating ? 0 : 1)
